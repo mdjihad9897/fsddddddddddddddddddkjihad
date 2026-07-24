@@ -1,0 +1,1320 @@
+<!DOCTYPE html>
+<html lang="en-BD">
+
+<head>
+
+<meta charset="utf-8">
+
+<meta
+name="viewport"
+content="width=device-width,initial-scale=1,viewport-fit=cover">
+
+<meta
+name="theme-color"
+content="#146182">
+
+<meta
+name="color-scheme"
+content="light">
+
+<meta
+name="description"
+content="Premium Firebase E-Commerce Bangladesh">
+
+<meta
+name="mobile-web-app-capable"
+content="yes">
+
+<meta
+name="apple-mobile-web-app-capable"
+content="yes">
+
+<meta
+name="apple-mobile-web-app-status-bar-style"
+content="default">
+
+<meta
+name="apple-mobile-web-app-title"
+content="Premium Commerce">
+
+<link
+rel="manifest"
+href="manifest.webmanifest">
+
+<link
+rel="icon"
+href="favicon.ico">
+
+<link
+rel="preconnect"
+href="https://fonts.googleapis.com">
+
+<link
+rel="preconnect"
+href="https://fonts.gstatic.com"
+crossorigin>
+
+<link
+rel="stylesheet"
+href="style.css">
+
+<link
+rel="stylesheet"
+href="pages.css">
+
+<title>
+Premium Commerce
+</title>
+
+</head>
+
+<body>
+
+<div class="app">
+
+<header class="app-header">
+
+<div class="header-inner">
+
+<a
+href="#home"
+class="brand">
+
+<div class="brand-logo">
+
+<svg class="icon">
+<use href="icons.svg#bag"></use>
+</svg>
+
+</div>
+
+<div>
+
+<strong>
+Premium Commerce
+</strong>
+
+<small>
+Bangladesh
+</small>
+
+</div>
+
+</a>
+
+<div
+class="search-bar">
+
+<svg>
+<use href="icons.svg#search"></use>
+</svg>
+
+<input
+id="globalSearch"
+class="search-input"
+type="search"
+placeholder="Search products...">
+
+</div>
+
+<div class="header-actions">
+
+<button
+id="notificationButton"
+class="icon-btn"
+aria-label="Notifications">
+
+<svg>
+<use href="icons.svg#bell"></use>
+</svg>
+
+<span
+id="notificationBadge"
+class="badge hidden">
+0
+</span>
+
+</button>
+
+<button
+id="drawerButton"
+class="icon-btn"
+aria-label="Menu">
+
+<svg>
+<use href="icons.svg#menu"></use>
+</svg>
+
+</button>
+
+</div>
+
+</div>
+
+</header>
+
+<main
+id="appContent"
+class="page">
+
+<section
+id="homePage">
+
+<div
+class="hero">
+
+<div
+class="hero-content">
+
+<h1>
+
+Shop Smarter.
+Delivered Across Bangladesh.
+
+</h1>
+
+<p>
+
+Trusted products,
+secure checkout,
+real-time order tracking,
+and fast nationwide delivery.
+
+</p>
+
+<div
+class="hero-actions">
+
+<button
+class="btn btn-primary"
+id="shopNowButton">
+
+Shop Now
+
+</button>
+
+<button
+class="btn btn-secondary"
+id="offersButton">
+
+Today's Offers
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<section class="section">
+
+<div class="section-header">
+
+<div class="section-title">
+
+<h2>
+
+Featured Categories
+
+</h2>
+
+<span>
+
+Browse everything
+
+</span>
+
+</div>
+
+<a href="#categories">
+
+View All
+
+</a>
+
+</div>
+
+<div
+id="featuredCategories"
+class="category-grid">
+
+</div>
+
+</section>
+
+<section class="section">
+
+<div class="section-header">
+
+<div class="section-title">
+
+<h2>
+
+Featured Products
+
+</h2>
+
+<span>
+
+Best sellers today
+
+</span>
+
+</div>
+
+<a href="#shop">
+
+View All
+
+</a>
+
+</div>
+
+<div
+id="featuredProducts"
+class="product-grid">
+
+</div>
+
+</section>
+
+</section>
+
+<section
+id="categoriesPage"
+class="hidden">
+
+<section class="section">
+
+<div class="section-header">
+
+<div class="section-title">
+
+<h2>
+
+Categories
+
+</h2>
+
+<span>
+
+Browse by department
+
+</span>
+
+</div>
+
+</div>
+
+<div class="search-bar mb-2">
+
+<svg>
+<use href="icons.svg#search"></use>
+</svg>
+
+<input
+id="categorySearch"
+class="search-input"
+type="search"
+placeholder="Search category">
+
+</div>
+
+<div
+id="categoryGrid"
+class="category-grid">
+
+</div>
+
+</section>
+
+</section>
+
+<section
+id="shopPage"
+class="hidden">
+
+<section class="section">
+
+<div class="section-header">
+
+<div class="section-title">
+
+<h2>
+
+Products
+
+</h2>
+
+<span>
+
+Browse our collection
+
+</span>
+
+</div>
+
+</div>
+
+<div
+id="filterBar"
+class="filter-wrap">
+
+<button
+class="filter-chip active">
+All
+</button>
+
+<button
+class="filter-chip">
+Newest
+</button>
+
+<button
+class="filter-chip">
+Popular
+</button>
+
+<button
+class="filter-chip">
+Best Selling
+</button>
+
+<button
+class="filter-chip">
+Lowest Price
+</button>
+
+<button
+class="filter-chip">
+Highest Price
+</button>
+
+<button
+class="filter-chip">
+Highest Rated
+</button>
+
+</div>
+
+<div
+id="shopProducts"
+class="product-grid mt-2">
+
+</div>
+
+</section>
+
+</section>
+
+<section
+id="wishlistPage"
+class="hidden">
+
+<section class="section">
+
+<div class="section-header">
+
+<div class="section-title">
+
+<h2>
+
+Wishlist
+
+</h2>
+
+<span>
+
+Products you saved
+
+</span>
+
+</div>
+
+</div>
+
+<div
+id="wishlistContainer">
+
+<div class="state">
+
+<svg>
+<use href="icons.svg#heart"></use>
+</svg>
+
+<h3>
+
+Your wishlist is empty
+
+</h3>
+
+<p>
+
+Products you save will appear here.
+
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+</section>
+
+<section
+id="cartPage"
+class="hidden">
+
+<section class="section">
+
+<div class="section-header">
+
+<div class="section-title">
+
+<h2>
+
+Shopping Cart
+
+</h2>
+
+<span>
+
+Review your order
+
+</span>
+
+</div>
+
+</div>
+
+<div
+id="cartList"
+class="cart-list">
+
+</div>
+
+<div
+id="orderSummary"
+class="order-summary">
+
+<div class="summary-row">
+
+<span>
+
+Subtotal
+
+</span>
+
+<strong
+id="summarySubtotal">
+
+৳0
+
+</strong>
+
+</div>
+
+<div class="summary-row">
+
+<span>
+
+Delivery
+
+</span>
+
+<strong
+id="summaryDelivery">
+
+৳0
+
+</strong>
+
+</div>
+
+<div class="summary-row summary-total">
+
+<span>
+
+Total
+
+</span>
+
+<strong
+id="summaryTotal">
+
+৳0
+
+</strong>
+
+</div>
+
+<button
+id="checkoutButton"
+class="btn btn-primary w-100">
+
+Proceed to Checkout
+
+</button>
+
+</div>
+
+</section>
+
+</section>
+
+<section
+id="checkoutPage"
+class="hidden">
+
+<section class="section">
+
+<div class="section-header">
+
+<div class="section-title">
+
+<h2>
+
+Checkout
+
+</h2>
+
+<span>
+
+Delivery information
+
+</span>
+
+</div>
+
+</div>
+
+<form
+id="checkoutForm"
+class="checkout-form">
+
+<div class="form-grid">
+
+<div class="field">
+
+<input
+name="name"
+class="input"
+placeholder="Full Name"
+required>
+
+</div>
+
+<div class="field">
+
+<input
+name="phone"
+class="input"
+placeholder="Phone Number"
+required>
+
+</div>
+
+<div class="field">
+
+<input
+name="division"
+class="input"
+placeholder="Division"
+required>
+
+</div>
+
+<div class="field">
+
+<input
+name="district"
+class="input"
+placeholder="District"
+required>
+
+</div>
+
+<div class="field">
+
+<input
+name="upazila"
+class="input"
+placeholder="Upazila"
+required>
+
+</div>
+
+<div class="field">
+
+<input
+name="area"
+class="input"
+placeholder="Area"
+required>
+
+</div>
+
+</div>
+
+<div class="field">
+
+<textarea
+name="address"
+class="input"
+placeholder="Delivery Address"
+required></textarea>
+
+</div>
+
+<div class="field">
+
+<textarea
+name="note"
+class="input"
+placeholder="Delivery Note (Optional)"></textarea>
+
+</div>
+
+<div class="radio-list">
+
+<label class="radio-card">
+
+<input
+type="radio"
+name="payment"
+value="Cash on Delivery"
+checked>
+
+<span>
+
+Cash on Delivery
+
+</span>
+
+</label>
+
+<label class="radio-card">
+
+<input
+type="radio"
+name="payment"
+value="bKash">
+
+<span>
+
+bKash
+
+</span>
+
+</label>
+
+<label class="radio-card">
+
+<input
+type="radio"
+name="payment"
+value="Nagad">
+
+<span>
+
+Nagad
+
+</span>
+
+</label>
+
+</div>
+
+<button
+type="submit"
+class="btn btn-success w-100">
+
+Place Order
+
+</button>
+
+</form>
+
+</section>
+
+</section>
+
+<section
+id="profilePage"
+class="hidden">
+
+<section class="section">
+
+<div class="profile-card">
+
+<div class="avatar">
+
+<img
+id="profilePhoto"
+src=""
+alt="Profile">
+
+</div>
+
+<h2
+id="profileName">
+
+Guest
+
+</h2>
+
+<div
+id="profileEmail"
+class="text-muted">
+
+Not signed in
+
+</div>
+
+<div
+id="profileInfo"
+class="profile-list">
+
+</div>
+
+</div>
+
+</section>
+
+</section>
+
+<section
+id="chatPage"
+class="hidden">
+
+<section class="section">
+
+<div class="chat-window">
+
+<div
+class="section-header">
+
+<h3>
+
+Live Support
+
+</h3>
+
+<div
+id="chatStatus"
+class="delivery-chip">
+
+Offline
+
+</div>
+
+</div>
+
+<div
+id="chatMessages"
+class="chat-messages">
+
+</div>
+
+<form
+id="chatForm"
+class="chat-input">
+
+<div class="field">
+
+<input
+id="chatInput"
+class="input"
+placeholder="Type your message">
+
+</div>
+
+<button
+class="btn btn-primary"
+type="submit">
+
+Send
+
+</button>
+
+</form>
+
+</div>
+
+</section>
+
+</section>
+
+<section
+id="loginPage"
+class="hidden">
+
+<section class="section">
+
+<form
+id="loginForm"
+class="checkout-form">
+
+<h2>
+
+Sign In
+
+</h2>
+
+<div class="field">
+
+<input
+class="input"
+name="email"
+type="email"
+placeholder="Email"
+required>
+
+</div>
+
+<div class="field">
+
+<input
+class="input"
+name="password"
+type="password"
+placeholder="Password"
+required>
+
+</div>
+
+<button
+class="btn btn-primary w-100"
+type="submit">
+
+Login
+
+</button>
+
+<button
+id="forgotPasswordButton"
+type="button"
+class="btn btn-secondary w-100">
+
+Forgot Password
+
+</button>
+
+</form>
+
+</section>
+
+</section>
+
+<section
+id="registerPage"
+class="hidden">
+
+<section class="section">
+
+<form
+id="registerForm"
+class="checkout-form">
+
+<h2>
+
+Create Account
+
+</h2>
+
+<div class="field">
+
+<input
+class="input"
+name="name"
+placeholder="Full Name"
+required>
+
+</div>
+
+<div class="field">
+
+<input
+class="input"
+name="phone"
+placeholder="Phone Number"
+required>
+
+</div>
+
+<div class="field">
+
+<input
+class="input"
+name="email"
+type="email"
+placeholder="Email"
+required>
+
+</div>
+
+<div class="field">
+
+<input
+class="input"
+name="password"
+type="password"
+placeholder="Password"
+required>
+
+</div>
+
+<button
+type="submit"
+class="btn btn-success w-100">
+
+Register
+
+</button>
+
+</form>
+
+</section>
+
+</section>
+
+</main>
+
+<div
+id="appDrawer"
+class="drawer">
+
+<div
+class="drawer-backdrop"></div>
+
+<aside
+class="drawer-panel">
+
+<div
+class="drawer-header">
+
+<h3>
+
+Menu
+
+</h3>
+
+<button
+id="closeDrawer"
+class="icon-btn"
+aria-label="Close Menu">
+
+<svg>
+<use href="icons.svg#close"></use>
+</svg>
+
+</button>
+
+</div>
+
+<nav
+class="drawer-menu">
+
+<a
+href="#profile"
+class="drawer-link">
+
+<svg>
+<use href="icons.svg#user"></use>
+</svg>
+
+<span>
+
+My Profile
+
+</span>
+
+</a>
+
+<a
+href="#orders"
+class="drawer-link">
+
+<svg>
+<use href="icons.svg#orders"></use>
+</svg>
+
+<span>
+
+My Orders
+
+</span>
+
+</a>
+
+<a
+href="#wishlist"
+class="drawer-link">
+
+<svg>
+<use href="icons.svg#heart"></use>
+</svg>
+
+<span>
+
+Wishlist
+
+</span>
+
+</a>
+
+<a
+href="#chat"
+class="drawer-link">
+
+<svg>
+<use href="icons.svg#chat"></use>
+</svg>
+
+<span>
+
+Chat
+
+</span>
+
+</a>
+
+<a
+href="#notifications"
+class="drawer-link">
+
+<svg>
+<use href="icons.svg#bell"></use>
+</svg>
+
+<span>
+
+Notifications
+
+</span>
+
+</a>
+
+<a
+href="#settings"
+class="drawer-link">
+
+<svg>
+<use href="icons.svg#settings"></use>
+</svg>
+
+<span>
+
+Settings
+
+</span>
+
+</a>
+
+<a
+href="#help"
+class="drawer-link">
+
+<svg>
+<use href="icons.svg#help"></use>
+</svg>
+
+<span>
+
+Help Center
+
+</span>
+
+</a>
+
+<a
+href="#contact"
+class="drawer-link">
+
+<svg>
+<use href="icons.svg#phone"></use>
+</svg>
+
+<span>
+
+Contact Us
+
+</span>
+
+</a>
+
+<a
+href="#about"
+class="drawer-link">
+
+<svg>
+<use href="icons.svg#info"></use>
+</svg>
+
+<span>
+
+About
+
+</span>
+
+</a>
+
+<button
+id="logoutButton"
+class="drawer-link">
+
+<svg>
+<use href="icons.svg#logout"></use>
+</svg>
+
+<span>
+
+Logout
+
+</span>
+
+</button>
+
+</nav>
+
+<div>
+
+<small>
+
+© Premium Commerce Bangladesh
+
+</small>
+
+</div>
+
+</aside>
+
+</div>
+
+<nav
+class="bottom-nav">
+
+<div
+class="bottom-nav-inner">
+
+<a
+href="#home"
+class="nav-item active"
+data-page="home">
+
+<svg>
+<use href="icons.svg#home"></use>
+</svg>
+
+<span>
+
+Home
+
+</span>
+
+</a>
+
+<a
+href="#wishlist"
+class="nav-item"
+data-page="wishlist">
+
+<svg>
+<use href="icons.svg#heart"></use>
+</svg>
+
+<span>
+
+Wishlist
+
+</span>
+
+</a>
+
+<a
+href="#cart"
+class="nav-item"
+data-page="cart">
+
+<svg>
+<use href="icons.svg#cart"></use>
+</svg>
+
+<span>
+
+Cart
+
+</span>
+
+</a>
+
+<a
+href="#chat"
+class="nav-item"
+data-page="chat">
+
+<svg>
+<use href="icons.svg#chat"></use>
+</svg>
+
+<span>
+
+Chat
+
+</span>
+
+</a>
+
+<a
+href="#profile"
+class="nav-item"
+data-page="profile">
+
+<svg>
+<use href="icons.svg#user"></use>
+</svg>
+
+<span>
+
+Profile
+
+</span>
+
+</a>
+
+</div>
+
+</nav>
+
+<script
+type="module"
+src="firebase-config.js"></script>
+
+<script
+type="module"
+src="core.js"></script>
+
+<script
+type="module"
+src="auth.js"></script>
+
+<script
+type="module"
+src="shop.js"></script>
+
+<script
+type="module"
+src="cart-checkout.js"></script>
+
+<script
+type="module"
+src="chat.js"></script>
+
+<script
+type="module"
+src="app.js"></script>
+
+</body>
+</html>

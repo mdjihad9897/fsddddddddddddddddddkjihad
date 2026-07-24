@@ -1,0 +1,328 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function uid() {
+      return request.auth.uid;
+    }
+
+    function isOwner(userId) {
+      return signedIn() && uid() == userId;
+    }
+
+    function userDoc() {
+      return get(/databases/$(database)/documents/users/$(uid()));
+    }
+
+    function isAdmin() {
+      return signedIn()
+        && userDoc().exists()
+        && userDoc().data.role == "admin"
+        && userDoc().data.disabled != true;
+    }
+
+    function validString(field, min, max) {
+      return field is string
+        && field.size() >= min
+        && field.size() <= max;
+    }
+
+    function validPrice(value) {
+      return value is number && value >= 0;
+    }
+
+    function validTimestamp(field) {
+      return field is timestamp;
+    }
+
+    function only(keys) {
+      return request.resource.data.keys().hasOnly(keys);
+    }
+
+    function has(keys) {
+      return request.resource.data.keys().hasAll(keys);
+    }
+
+    function immutable(field) {
+      return request.resource.data[field] == resource.data[field];
+    }
+
+    /* -----------------------------------------------------------------------
+       USERS
+    ----------------------------------------------------------------------- */
+
+    match /users/{userId} {
+
+      allow read: if isOwner(userId) || isAdmin();
+
+      allow create: if signedIn()
+        && uid() == userId
+        && has([
+          "uid",
+          "name",
+          "email",
+          "phone",
+          "photoURL",
+          "role",
+          "createdAt",
+          "updatedAt",
+          "disabled"
+        ])
+        && request.resource.data.uid == uid()
+        && request.resource.data.role == "customer"
+        && request.resource.data.disabled == false
+        && validString(request.resource.data.name,1,120)
+        && validString(request.resource.data.email,5,200);
+
+      allow update: if
+      (
+        isOwner(userId)
+        &&
+        immutable("uid")
+        &&
+        immutable("role")
+      )
+      || isAdmin();
+
+      allow delete: if isAdmin();
+    }
+
+    /* -----------------------------------------------------------------------
+       PRODUCTS
+    ----------------------------------------------------------------------- */
+
+    match /products/{productId} {
+
+      allow read: if true;
+
+      allow create, update, delete: if isAdmin();
+    }
+
+    /* -----------------------------------------------------------------------
+       CATEGORIES
+    ----------------------------------------------------------------------- */
+
+    match /categories/{categoryId} {
+
+      allow read: if true;
+
+      allow create, update, delete: if isAdmin();
+    }
+
+    /* -----------------------------------------------------------------------
+       BANNERS
+    ----------------------------------------------------------------------- */
+
+    match /banners/{bannerId} {
+
+      allow read: if true;
+
+      allow create, update, delete: if isAdmin();
+    }
+
+    /* -----------------------------------------------------------------------
+       SETTINGS
+    ----------------------------------------------------------------------- */
+
+    match /settings/{settingId} {
+
+      allow read: if true;
+
+      allow create, update, delete: if isAdmin();
+    }
+
+    /* -----------------------------------------------------------------------
+       COUPONS
+    ----------------------------------------------------------------------- */
+
+    match /coupons/{couponId} {
+
+      allow read: if signedIn();
+
+      allow create, update, delete: if isAdmin();
+    }
+
+    /* -----------------------------------------------------------------------
+       WISHLIST
+    ----------------------------------------------------------------------- */
+
+    match /wishlist/{wishlistId} {
+
+      allow read: if signedIn()
+        && resource.data.userId == uid();
+
+      allow create: if signedIn()
+        && request.resource.data.userId == uid();
+
+      allow update: if signedIn()
+        && resource.data.userId == uid()
+        && request.resource.data.userId == uid();
+
+      allow delete: if signedIn()
+        && resource.data.userId == uid();
+    }
+
+    /* -----------------------------------------------------------------------
+       CART
+    ----------------------------------------------------------------------- */
+
+    match /cart/{cartId} {
+
+      allow read: if signedIn()
+        && resource.data.userId == uid();
+
+      allow create: if signedIn()
+        && request.resource.data.userId == uid();
+
+      allow update: if signedIn()
+        && resource.data.userId == uid()
+        && request.resource.data.userId == uid();
+
+      allow delete: if signedIn()
+        && resource.data.userId == uid();
+    }
+
+    /* -----------------------------------------------------------------------
+       REVIEWS
+    ----------------------------------------------------------------------- */
+
+    match /reviews/{reviewId} {
+
+      allow read: if true;
+
+      allow create: if signedIn()
+        && request.resource.data.userId == uid();
+
+      allow update: if signedIn()
+        && resource.data.userId == uid();
+
+      allow delete: if signedIn()
+        && (
+          resource.data.userId == uid()
+          || isAdmin()
+        );
+    }
+
+    /* -----------------------------------------------------------------------
+       ORDERS
+    ----------------------------------------------------------------------- */
+
+    match /orders/{orderId} {
+
+      allow read: if
+        (
+          signedIn()
+          && resource.data.userId == uid()
+        )
+        || isAdmin();
+
+      allow create: if signedIn()
+        && request.resource.data.userId == uid();
+
+      allow update: if
+        (
+          signedIn()
+          && resource.data.userId == uid()
+          && immutable("paymentStatus")
+          && immutable("deliveryStatus")
+          && immutable("orderStatus")
+        )
+        || isAdmin();
+
+      allow delete: if isAdmin();
+    }
+
+    /* -----------------------------------------------------------------------
+       NOTIFICATIONS
+    ----------------------------------------------------------------------- */
+
+    match /notifications/{notificationId} {
+
+      allow read: if
+        signedIn()
+        && resource.data.userId == uid();
+
+      allow create: if isAdmin();
+
+      allow update: if
+        signedIn()
+        && resource.data.userId == uid();
+
+      allow delete: if
+        signedIn()
+        && resource.data.userId == uid();
+    }
+
+    /* -----------------------------------------------------------------------
+       CHATS
+    ----------------------------------------------------------------------- */
+
+    match /chats/{chatId} {
+
+      allow read: if
+        isAdmin()
+        || (
+          signedIn()
+          && (
+            resource.data.userId == uid()
+            || resource.data.participants.hasAny([uid()])
+          )
+        );
+
+      allow create: if
+        signedIn()
+        && request.resource.data.userId == uid();
+
+      allow update: if
+        isAdmin()
+        || (
+          signedIn()
+          && resource.data.userId == uid()
+        );
+
+      allow delete: if isAdmin();
+
+      match /messages/{messageId} {
+
+        allow read: if
+          isAdmin()
+          || (
+            signedIn()
+            && (
+              get(
+                /databases/$(database)/documents/chats/$(chatId)
+              ).data.userId == uid()
+            )
+          );
+
+        allow create: if
+          signedIn()
+          && request.resource.data.senderId == uid();
+
+        allow update: if
+          isAdmin()
+          || (
+            signedIn()
+            && resource.data.senderId == uid()
+          );
+
+        allow delete: if
+          isAdmin();
+      }
+    }
+
+    /* -----------------------------------------------------------------------
+       DEFAULT
+    ----------------------------------------------------------------------- */
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+  }
+}

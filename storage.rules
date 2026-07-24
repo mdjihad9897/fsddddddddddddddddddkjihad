@@ -1,0 +1,207 @@
+rules_version = '2';
+
+service firebase.storage {
+
+  match /b/{bucket}/o {
+
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function uid() {
+      return request.auth.uid;
+    }
+
+    function userDoc() {
+      return firestore.get(
+        /databases/(default)/documents/users/$(uid())
+      );
+    }
+
+    function isAdmin() {
+      return signedIn()
+        && userDoc().data.role == "admin"
+        && userDoc().data.disabled != true;
+    }
+
+    function isImage() {
+      return request.resource.contentType.matches("image/.*");
+    }
+
+    function imageSizeLimit() {
+      return request.resource.size < 10 * 1024 * 1024;
+    }
+
+    function documentSizeLimit() {
+      return request.resource.size < 20 * 1024 * 1024;
+    }
+
+    /* --------------------------------------------------------------------
+       USER PROFILE PHOTOS
+    -------------------------------------------------------------------- */
+
+    match /users/{userId}/profile/{fileName} {
+
+      allow read: if true;
+
+      allow create: if
+        signedIn()
+        && uid() == userId
+        && isImage()
+        && imageSizeLimit();
+
+      allow update: if
+        signedIn()
+        && uid() == userId
+        && isImage()
+        && imageSizeLimit();
+
+      allow delete: if
+        signedIn()
+        && (
+          uid() == userId
+          || isAdmin()
+        );
+    }
+
+    /* --------------------------------------------------------------------
+       PRODUCT IMAGES
+    -------------------------------------------------------------------- */
+
+    match /products/{productId}/{fileName} {
+
+      allow read: if true;
+
+      allow create,
+            update,
+            delete: if
+              isAdmin()
+              && isImage()
+              && imageSizeLimit();
+    }
+
+    /* --------------------------------------------------------------------
+       CATEGORY IMAGES
+    -------------------------------------------------------------------- */
+
+    match /categories/{categoryId}/{fileName} {
+
+      allow read: if true;
+
+      allow create,
+            update,
+            delete: if
+              isAdmin()
+              && isImage()
+              && imageSizeLimit();
+    }
+
+    /* --------------------------------------------------------------------
+       BANNERS
+    -------------------------------------------------------------------- */
+
+    match /banners/{bannerId}/{fileName} {
+
+      allow read: if true;
+
+      allow create,
+            update,
+            delete: if
+              isAdmin()
+              && isImage()
+              && imageSizeLimit();
+    }
+
+    /* --------------------------------------------------------------------
+       REVIEW IMAGES
+    -------------------------------------------------------------------- */
+
+    match /reviews/{userId}/{fileName} {
+
+      allow read: if true;
+
+      allow create: if
+        signedIn()
+        && uid() == userId
+        && isImage()
+        && imageSizeLimit();
+
+      allow update: if
+        signedIn()
+        && uid() == userId
+        && isImage()
+        && imageSizeLimit();
+
+      allow delete: if
+        signedIn()
+        && (
+          uid() == userId
+          || isAdmin()
+        );
+    }
+
+    /* --------------------------------------------------------------------
+       CHAT ATTACHMENTS
+    -------------------------------------------------------------------- */
+
+    match /chat/{chatId}/{fileName} {
+
+      allow read: if signedIn();
+
+      allow create: if
+        signedIn()
+        && (
+          isImage()
+          || request.resource.contentType.matches("application/pdf")
+        )
+        && documentSizeLimit();
+
+      allow update: if false;
+
+      allow delete: if
+        signedIn()
+        || isAdmin();
+    }
+
+    /* --------------------------------------------------------------------
+       ORDER ATTACHMENTS (PAYMENT PROOF ETC.)
+    -------------------------------------------------------------------- */
+
+    match /orders/{orderId}/{fileName} {
+
+      allow read: if
+        signedIn();
+
+      allow create: if
+        signedIn()
+        && documentSizeLimit();
+
+      allow update: if false;
+
+      allow delete: if
+        signedIn()
+        || isAdmin();
+    }
+
+    /* --------------------------------------------------------------------
+       EXPORTS / IMPORTS
+    -------------------------------------------------------------------- */
+
+    match /admin/{folder}/{fileName} {
+
+      allow read,
+            write: if
+              isAdmin();
+    }
+
+    /* --------------------------------------------------------------------
+       BLOCK EVERYTHING ELSE
+    -------------------------------------------------------------------- */
+
+    match /{allPaths=**} {
+
+      allow read,
+            write: if false;
+    }
+  }
+}
